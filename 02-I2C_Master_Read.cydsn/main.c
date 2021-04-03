@@ -66,6 +66,7 @@ int main(void)
 	}
 	UART_1_PutString("\n\n");
     
+    I2C_Master_MasterSendStart(LIS3DH_DEVICE_ADDRESS, I2C_Master_WRITE_XFER_MODE);
     
     /******************************************/
     /*            I2C Reading                 */
@@ -76,10 +77,31 @@ int main(void)
     // registers to read
     
     /*      I2C Master Read - WHOAMI Register       */
+    uint8_t whoami_reg;
+    ErrorCode error = I2C_Peripheral_ReadRegister(LIS3DH_DEVICE_ADDRESS, 
+                                                  LIS3DH_WHO_AM_I_REG_ADDR,
+                                                  &whoami_reg);
+    if( error == NO_ERROR ) {
+        sprintf(message, "WHOAMI reg value: 0x%02X [Expected value: 0x%02X]\r\n", whoami_reg, LIS3DH_WHOAMI_RETVAL);
+        UART_1_PutString(message);
+    }
+    else {
+        UART_1_PutString("I2C error while reading LIS3DH_WHO_AM_I_REG_ADDR\r\n");
+    }
     
     
     /*      I2C Master Read - STATUS Register       */
-    
+    uint8_t status_reg;
+    error = I2C_Peripheral_ReadRegister(LIS3DH_DEVICE_ADDRESS, 
+                                                  LIS3DH_STATUS_REG,
+                                                  &status_reg);
+    if( error == NO_ERROR ) {
+        sprintf(message, "WHOAMI reg value: 0x%02X\r\n", status_reg);
+        UART_1_PutString(message);
+    }
+    else {
+        UART_1_PutString("I2C error while reading LIS3DH_STATUS_REG\r\n");
+    }
     
 
     for(;;)
