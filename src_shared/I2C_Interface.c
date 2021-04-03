@@ -71,14 +71,30 @@
                                                 uint8_t register_count,
                                                 uint8_t* data)
     {
-        // TODO
+        // TODO   
     }
     
     ErrorCode I2C_Peripheral_WriteRegister(uint8_t device_address,
-                                            uint8_t register_address,
-                                            uint8_t data)
+                                           uint8_t register_address,
+                                           uint8_t data)
     {
-        // TODO
+        
+        // Start condition
+        uint8_t error = I2C_Master_MasterSendStart(device_address, I2C_Master_WRITE_XFER_MODE);
+        if( error == I2C_Master_MSTR_NO_ERROR ) {
+            // write address of register to overwrite
+            error = I2C_Master_MasterWriteByte(register_address);
+            if (error == I2C_Master_MSTR_NO_ERROR) {
+                // write byte
+                error = I2C_Master_MasterWriteByte(data);
+            }
+        }
+        // Close I2C communication
+        I2C_Master_MasterSendStop();
+        
+        // Return error code
+        return error ? ERROR : NO_ERROR;
+        
     }
     
     ErrorCode I2C_Peripheral_WriteRegisterMulti(uint8_t device_address,
