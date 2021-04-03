@@ -14,6 +14,9 @@
 #include "../src_shared/I2C_Interface.h"
 #include "../src_shared/LIS3DH.h"
 
+// Set this to 1 to send byte data for the Bridge Control Panel
+// Otherwise set it to 0 to send temperature data as int16_t
+#define USE_BRIDGECONTROLPANEL  0
 
 int main(void)
 {
@@ -30,6 +33,10 @@ int main(void)
     if( rval == I2C_Master_MSTR_NO_ERROR ) {
         UART_1_PutString("LIS3DH found @ address 0x18\r\n");
     }
+    I2C_Master_MasterSendStop();
+    
+    // String to print out messages over UART
+    char message[50] = {'\0'};
     
     /*******************************************/
     /*   I2C Temperature Reading from LIS3DH   */
@@ -38,20 +45,22 @@ int main(void)
     // I2C error return code
     ErrorCode error;
     // Register variables
-    uint8_t tmp_ctrl_reg, ctrl_reg_4;
+    uint8_t tmp_ctrl_reg, other_reg; // find out which is the other register to set
+    
+    // Your time to code!
     
     // Read LIS3DH_TEMP_CFG_REG
     
     // Set it to the appropriate value
     
     
-    // Read LIS3DH_CTRL_REG4
+    // Read the other register
     
     // Set it to the appropriate value
     
     
     
-    /*    Temperature reading and log over UART    */
+    /**   Temperature reading and log over UART   **/
     
     // Init the data BUFFER
     const uint8_t header = 0xA0;
