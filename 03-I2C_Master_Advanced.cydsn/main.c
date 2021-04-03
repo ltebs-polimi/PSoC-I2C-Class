@@ -16,7 +16,7 @@
 
 // Set this to 1 to send byte data for the Bridge Control Panel
 // Otherwise set it to 0 to send temperature data as int16_t
-#define USE_BRIDGECONTROLPANEL  0
+#define USE_BRIDGECONTROLPANEL  1
 
 int main(void)
 {
@@ -46,6 +46,12 @@ int main(void)
     ErrorCode error;
     // Register variables
     uint8_t tmp_cfg_reg, ctrl_reg4;
+    
+    // Only for debugging: reboot memory content
+    /*I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS, 0x24, 0x01);
+    CyDelay(10);
+    I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS, 0x24, 0x00);
+    CyDelay(10);*/
     
     // Your time to code!
     
@@ -114,7 +120,7 @@ int main(void)
     // Init the data BUFFER
     const uint8_t header = 0xA0;
     const uint8_t footer = 0xC0;
-    uint8_t dataArray[4];
+    uint8_t dataArray[4] = {0};
     dataArray[0] = header;
     dataArray[3] = footer;
     
@@ -140,8 +146,6 @@ int main(void)
         // Convert the value
         out_temp = (int16_t)((raw_temp[0] | (raw_temp[1] << 8))) >> 6;
         
-        // Apply the dirty trick 
-        out_temp *= dirtyTrick;
         
         #if USE_BRIDGECONTROLPANEL
             // Send Raw Data Bytes
@@ -150,6 +154,8 @@ int main(void)
             UART_1_PutArray(dataArray, 4);
         #else
             // Send the uint16_t value
+            // Apply the dirty trick 
+            out_temp *= dirtyTrick;
             sprintf(message, "Temp = %d\r\n", out_temp);
             UART_1_PutString(message);
         #endif
