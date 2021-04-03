@@ -66,8 +66,6 @@ int main(void)
 	}
 	UART_1_PutString("\n\n");
     
-    I2C_Master_MasterSendStart(LIS3DH_DEVICE_ADDRESS, I2C_Master_WRITE_XFER_MODE);
-    
     /******************************************/
     /*            I2C Reading                 */
     /******************************************/
@@ -96,7 +94,7 @@ int main(void)
                                                   LIS3DH_STATUS_REG,
                                                   &status_reg);
     if( error == NO_ERROR ) {
-        sprintf(message, "WHOAMI reg value: 0x%02X\r\n", status_reg);
+        sprintf(message, "LIS3DH_STATUS_REG value: 0x%02X\r\n", status_reg);
         UART_1_PutString(message);
     }
     else {
