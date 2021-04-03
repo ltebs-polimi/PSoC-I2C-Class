@@ -9,8 +9,10 @@
  *
  * ========================================
 */
+#include <stdio.h>
 #include "project.h"
 #include "../src_shared/I2C_Interface.h"
+#include "../src_shared/LIS3DH.h"
 
 int main(void)
 {
@@ -68,6 +70,10 @@ int main(void)
     /******************************************/
     /*            I2C Reading                 */
     /******************************************/
+    
+    // Your turn to code!
+    // Check the defines in LIS3DH.h for the address of the
+    // registers to read
     
     /*      I2C Master Read - WHOAMI Register       */
     
