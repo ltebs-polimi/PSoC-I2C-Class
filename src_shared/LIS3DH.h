@@ -22,6 +22,11 @@
     *   \brief Address of the WHO AM I register
     */
     #define LIS3DH_WHO_AM_I_REG_ADDR 0x0F
+    
+    /**
+    *   \brief WHOAMI return value
+    */
+    #define LIS3DH_WHOAMI_RETVAL     0x33
 
     /**
     *   \brief Address of the Status register
@@ -46,9 +51,9 @@
     #define LIS3DH_TEMP_CFG_REG_ACTIVE 0xC0
 
     /**
-    *   \brief Address of the Control register 4
+    *   \brief Address of ??
     */
-    #define LIS3DH_CTRL_REG4 0x23
+    // #define LIS3DH_??_REG 0x??
 
     #define LIS3DH_CTRL_REG4_BDU_ACTIVE 0x80
 
