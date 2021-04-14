@@ -16,7 +16,7 @@
 
 // Set this to 1 to send byte data for the Bridge Control Panel
 // Otherwise set it to 0 to send temperature data as int16_t
-#define USE_BRIDGECONTROLPANEL  1
+#define USE_BRIDGECONTROLPANEL  0
 
 int main(void)
 {
@@ -48,10 +48,10 @@ int main(void)
     uint8_t tmp_cfg_reg, ctrl_reg4;
     
     // Only for debugging: reboot memory content
-    /*I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS, 0x24, 0x01);
+    I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS, 0x24, 0x01);
     CyDelay(10);
     I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS, 0x24, 0x00);
-    CyDelay(10);*/
+    CyDelay(10);
     
     // Your time to code!
     
@@ -114,6 +114,16 @@ int main(void)
         UART_1_PutString("I2C error while writing LIS3DH_CTRL_REG4\r\n");   
     }
     
+    // Make sure we set also CTRL_REG1 : write 0x47 to activate the device
+    error = I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS,
+                                         LIS3DH_CTRL_REG1,
+                                         LIS3DH_NORMAL_MODE_CTRL_REG1);
+    uint8_t ctrl_reg1;
+    error = I2C_Peripheral_ReadRegister(LIS3DH_DEVICE_ADDRESS,
+                                        LIS3DH_CTRL_REG1,
+                                        &ctrl_reg1);
+    if( error != NO_ERROR || ctrl_reg1 != LIS3DH_NORMAL_MODE_CTRL_REG1 )
+        UART_1_PutString("I2C error activating the device (CTRL_REG1)\r\n");
     
     /**   Temperature reading and log over UART   **/
     
@@ -144,7 +154,7 @@ int main(void)
                                                  raw_temp);
         
         // Convert the value
-        out_temp = (int16_t)((raw_temp[0] | (raw_temp[1] << 8))) >> 6;
+        out_temp = ((int16_t)((raw_temp[0] | (raw_temp[1] << 8))) >> 6) & 0x03FF;
         
         
         #if USE_BRIDGECONTROLPANEL
@@ -156,7 +166,8 @@ int main(void)
             // Send the uint16_t value
             // Apply the dirty trick 
             out_temp *= dirtyTrick;
-            sprintf(message, "Temp = %d\r\n", out_temp);
+            //sprintf(message, "Temp = %d\r\n", out_temp);
+            sprintf(message, "0x%02x 0x%02x | %d\r\n", raw_temp[0], raw_temp[1], out_temp);
             UART_1_PutString(message);
         #endif
          
