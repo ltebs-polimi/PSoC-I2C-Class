@@ -28,6 +28,8 @@ int main(void)
     
     CyDelay(5); //"The boot procedure is complete about 5 ms after device power-up."
     
+    UART_1_PutString("*** Project 3 - I2C Master Advanced\r\n");
+    
     // Check if LIS3DH is connected
     uint32_t rval = I2C_Master_MasterSendStart(LIS3DH_DEVICE_ADDRESS, I2C_Master_WRITE_XFER_MODE);
     if( rval == I2C_Master_MSTR_NO_ERROR ) {
@@ -145,7 +147,7 @@ int main(void)
     for(;;)
     {
         
-        CyDelay(100); // Sample at approx. 10 Hz
+        CyDelay(50); // Sample at approx. 20 Hz
         
         // Get raw temperature data from the LIS3DH
         error = I2C_Peripheral_ReadRegisterMulti(LIS3DH_DEVICE_ADDRESS,
@@ -166,7 +168,6 @@ int main(void)
             // Send the uint16_t value
             // Apply the dirty trick 
             out_temp *= dirtyTrick;
-            //sprintf(message, "Temp = %d\r\n", out_temp);
             sprintf(message, "0x%02x 0x%02x | %d\r\n", raw_temp[0], raw_temp[1], out_temp);
             UART_1_PutString(message);
         #endif

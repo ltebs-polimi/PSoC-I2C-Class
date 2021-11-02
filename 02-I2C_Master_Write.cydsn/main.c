@@ -38,7 +38,7 @@ int main(void)
     /*            I2C Writing                 */
     /******************************************/
     
-    uint8_t ctrl_reg1;
+    uint8_t ctrl_reg1 = 0x00;
     ErrorCode error;
     
     // Your time to code!
@@ -47,13 +47,13 @@ int main(void)
     if ( ctrl_reg1 != LIS3DH_NORMAL_MODE_OFF_CTRL_REG1 ) {
         UART_1_PutString("\r\nWriting to CTRL_REG1...\r\n");
         
-        ctrl_reg1 = LIS3DH_NORMAL_MODE_CTRL_REG1;
+        //ctrl_reg1 = LIS3DH_NORMAL_MODE_CTRL_REG1;
         error = I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS,
                                              LIS3DH_CTRL_REG1,
-                                             LIS3DH_NORMAL_MODE_OFF_CTRL_REG1);
+                                             LIS3DH_NORMAL_MODE_CTRL_REG1);
     
         if( error == NO_ERROR ) {
-            sprintf(message, "CTRL_REG1 successfully written as: 0x%02X\r\n", ctrl_reg1);
+            sprintf(message, "CTRL_REG1 successfully written as: 0x%02X\r\n", LIS3DH_NORMAL_MODE_CTRL_REG1);
             UART_1_PutString(message); 
         }
         else
@@ -70,7 +70,7 @@ int main(void)
                                         &ctrl_reg1);
     
     if( error == NO_ERROR ) {
-        sprintf(message, "CTRL_REG1 after over-write operation: 0x%02X\r\n", ctrl_reg1);
+        sprintf(message, "CTRL_REG1 after (over-)write operation: 0x%02X\r\n", ctrl_reg1);
         UART_1_PutString(message); 
     }
     else {
