@@ -56,9 +56,9 @@
     #define LIS3DH_TEMP_CFG_REG_ACTIVE 0xC0
 
     /**
-    *   \brief Address of ??
+    *   \brief Address of CTRL_REG4
     */
-    // #define LIS3DH_??_REG 0x??
+    #define LIS3DH_CTRL_REG4 0x23
 
     #define LIS3DH_CTRL_REG4_BDU_ACTIVE 0x80
 
