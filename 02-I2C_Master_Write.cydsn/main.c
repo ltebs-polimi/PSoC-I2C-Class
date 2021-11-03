@@ -29,25 +29,55 @@ int main(void)
     if( rval == I2C_Master_MSTR_NO_ERROR ) {
         UART_1_PutString("LIS3DH found @ address 0x18\r\n");
     }
+    I2C_Master_MasterSendStop();
+    
+    // String to print out messages over UART
+    char message[50] = {'\0'};
     
     /******************************************/
     /*            I2C Writing                 */
     /******************************************/
     
     uint8_t ctrl_reg1;
+    ErrorCode error;
     
     // Your time to code!
     
+    // Write CTRL_REG1 and...
+    if ( ctrl_reg1 != LIS3DH_NORMAL_MODE_OFF_CTRL_REG1 ) {
+        UART_1_PutString("\r\nWriting to CTRL_REG1...\r\n");
+        
+        ctrl_reg1 = LIS3DH_NORMAL_MODE_CTRL_REG1;
+        error = I2C_Peripheral_WriteRegister(LIS3DH_DEVICE_ADDRESS,
+                                             LIS3DH_CTRL_REG1,
+                                             LIS3DH_NORMAL_MODE_OFF_CTRL_REG1);
+    
+        if( error == NO_ERROR ) {
+            sprintf(message, "CTRL_REG1 successfully written as: 0x%02X\r\n", ctrl_reg1);
+            UART_1_PutString(message); 
+        }
+        else
+        {
+            UART_1_PutString("I2C error while writing CTRL_REG1\r\n");   
+        }
+    }
     
     
-    // Read the value of CTRL_REG1 and make sure
+    // ... read the value of CTRL_REG1 and make sure
     // you get the value written before
+    error = I2C_Peripheral_ReadRegister(LIS3DH_DEVICE_ADDRESS,
+                                        LIS3DH_CTRL_REG1,
+                                        &ctrl_reg1);
+    
+    if( error == NO_ERROR ) {
+        sprintf(message, "CTRL_REG1 after over-write operation: 0x%02X\r\n", ctrl_reg1);
+        UART_1_PutString(message); 
+    }
+    else {
+        UART_1_PutString("I2C error while reading CTRL_REG1\r\n");   
+    }
     
     
-    
-    
-    // String to print out messages on the UART
-    char message[50] = {'\0'};
     for(;;)
     {
         /* Place your application code here. */
