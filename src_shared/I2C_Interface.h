@@ -10,8 +10,8 @@
  * \date September 12, 2019
 */
 
-#ifndef __I2C_Interface_H
-    #define __I2C_Interface_H
+#ifndef I2C_Interface_H
+    #define I2C_Interface_H
     
     #include "cytypes.h"
     #include "ErrorCodes.h"
@@ -38,8 +38,8 @@
     *   \param data Pointer to a variable where the byte will be saved.
     */
     ErrorCode I2C_Peripheral_ReadRegister(uint8_t device_address, 
-                                          uint8_t register_address,
-                                          uint8_t* data);
+                                            uint8_t register_address,
+                                            uint8_t* data);
     
     /** 
     *   \brief Read multiple bytes over I2C.
@@ -52,9 +52,9 @@
     *   \param data Pointer to an array where data will be saved.
     */
     ErrorCode I2C_Peripheral_ReadRegisterMulti(uint8_t device_address,
-                                               uint8_t register_address,
-                                               uint8_t register_count,
-                                               uint8_t* data);
+                                                uint8_t register_address,
+                                                uint8_t register_count,
+                                                uint8_t* data);
     /** 
     *   \brief Write a byte over I2C.
     *   
@@ -65,8 +65,8 @@
     *   \param data Data to be written
     */
     ErrorCode I2C_Peripheral_WriteRegister(uint8_t device_address,
-                                           uint8_t register_address,
-                                           uint8_t data);
+                                            uint8_t register_address,
+                                            uint8_t data);
     
     /** 
     *   \brief Write multiple bytes over I2C.
@@ -79,9 +79,9 @@
     *   \param data Array of data to be written
     */
     ErrorCode I2C_Peripheral_WriteRegisterMulti(uint8_t device_address,
-                                                uint8_t register_address,
-                                                uint8_t register_count,
-                                                uint8_t* data);
+                                            uint8_t register_address,
+                                            uint8_t register_count,
+                                            uint8_t* data);
     
     /**
     *   \brief Check if device is connected over I2C.

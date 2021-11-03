@@ -42,11 +42,6 @@
     *   \brief Hex value to set normal mode to the accelerator
     */
     #define LIS3DH_NORMAL_MODE_CTRL_REG1 0x47
-    
-    /**
-    *   \brief Hex value to set normal mode (powered off)
-    **/
-    #define LIS3DH_NORMAL_MODE_OFF_CTRL_REG1 0x07
 
     /**
     *   \brief  Address of the Temperature Sensor Configuration register
@@ -56,13 +51,10 @@
     #define LIS3DH_TEMP_CFG_REG_ACTIVE 0xC0
 
     /**
-    *   \brief Address of ??            // <----- TO DO
+    *   \brief Address of ??
     */
     // #define LIS3DH_??_REG 0x??
 
-    /**
-    *   \brief Block Data Update (BDU) Flag
-    */
     #define LIS3DH_CTRL_REG4_BDU_ACTIVE 0x80
 
     /**

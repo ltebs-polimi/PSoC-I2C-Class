@@ -29,27 +29,25 @@ int main(void)
     if( rval == I2C_Master_MSTR_NO_ERROR ) {
         UART_1_PutString("LIS3DH found @ address 0x18\r\n");
     }
-    I2C_Master_MasterSendStop();
-    
-    // String to print out messages over UART
-    char message[50] = {'\0'};
     
     /******************************************/
     /*            I2C Writing                 */
     /******************************************/
-
     
     uint8_t ctrl_reg1;
-    ErrorCode error;
     
     // Your time to code!
-    // Write CTRL_REG1 and ...
     
     
-    // ... read the value of CTRL_REG1 and make sure
+    
+    // Read the value of CTRL_REG1 and make sure
     // you get the value written before
     
     
+    
+    
+    // String to print out messages on the UART
+    char message[50] = {'\0'};
     for(;;)
     {
         /* Place your application code here. */

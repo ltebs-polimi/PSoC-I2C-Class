@@ -89,7 +89,17 @@ int main(void)
     
     
     /*      I2C Master Read - STATUS Register       */
-    // ....
+    uint8_t status_reg;
+    error = I2C_Peripheral_ReadRegister(LIS3DH_DEVICE_ADDRESS, 
+                                                  LIS3DH_STATUS_REG,
+                                                  &status_reg);
+    if( error == NO_ERROR ) {
+        sprintf(message, "LIS3DH_STATUS_REG value: 0x%02X\r\n", status_reg);
+        UART_1_PutString(message);
+    }
+    else {
+        UART_1_PutString("I2C error while reading LIS3DH_STATUS_REG\r\n");
+    }
     
 
     for(;;)
